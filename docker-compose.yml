@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  postgres-users:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: taskflow_users
+      POSTGRES_USER: taskflow
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_users_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_users_data:
