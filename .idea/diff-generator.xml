@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiffGenerationConfig">
+    <option name="snapshotDb" value="false" />
+    <option name="snapshotModelValue" value="user-service:user-service" />
+    <option name="sourceModelValue" value="user-service:user-service" />
+    <option name="targetDbValue" value="f99cf35c-9552-4d44-a7e1-e70a18637478" />
+    <option name="updateChangeLogPath" value="user-service/src/main/resources/db/changelog/db.changelog-master.yaml" />
+    <option name="updateDbConnectionName" value="f99cf35c-9552-4d44-a7e1-e70a18637478" />
+  </component>
+</project>
