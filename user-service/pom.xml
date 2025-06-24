@@ -13,10 +13,6 @@
 	<name>user-service</name>
 	<description>User Service</description>
 
-	<properties>
-		<java.version>21</java.version>
-	</properties>
-
 	<dependencies>
 		<!-- Spring Boot Starters -->
 		<dependency>
