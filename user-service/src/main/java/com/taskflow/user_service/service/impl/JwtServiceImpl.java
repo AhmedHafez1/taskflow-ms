@@ -17,13 +17,16 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
+
     private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(User user) {
-        long JWT_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        long JWT_EXPIRATION_MS = jwtExpiration * 60 * 60 * 1000;
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("role", user.getRole().name())

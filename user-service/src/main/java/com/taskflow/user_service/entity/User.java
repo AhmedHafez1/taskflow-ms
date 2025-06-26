@@ -6,18 +6,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,10 +31,10 @@ public class User {
     @NotBlank
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(nullable = false)
     @NotBlank
     @Size(min = 8)
-    private String passwordHash;
+    private String password;
 
     @Column(name = "first_name", nullable = false)
     @NotBlank
@@ -58,11 +61,21 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public User(String email, String passwordHash, String firstName, String lastName, Role role) {
+    public User(String email, String password, String firstName, String lastName, Role role) {
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> "ROLE_" + role.name());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 }

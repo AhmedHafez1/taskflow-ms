@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/01-create-user-changelog.yaml
+  - include:
+      file: db/changelog/02-password-column-changelog.yaml

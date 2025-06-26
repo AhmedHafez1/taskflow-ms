@@ -10,8 +10,6 @@ import com.taskflow.user_service.repository.UserRepository;
 import com.taskflow.user_service.service.AuthService;
 import com.taskflow.user_service.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userMapper.toUser(request);
 
-        user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setPassword(passwordEncoder.encode(request.password()));
 
         userRepo.save(user);
 
@@ -43,20 +41,11 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepo.findByEmail(request.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Email does not exists!"));
 
-        if (!passwordEncoder.matches(request.password(), user.getPasswordHash()))
+        if (!passwordEncoder.matches(request.password(), user.getPassword()))
             throw new InvalidCredentialsException("Invalid password!");
 
         String token = jwtService.generateToken(user);
 
         return new AuthResponse(token, userMapper.toUserResponse(user));
-    }
-
-    @Override
-    public Authentication getAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new InvalidCredentialsException("User not authenticated!");
-        }
-        return authentication;
     }
 }
