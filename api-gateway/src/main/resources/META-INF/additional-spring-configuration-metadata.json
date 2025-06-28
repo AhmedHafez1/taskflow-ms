@@ -9,5 +9,25 @@
       "name": "jwt.expiration",
       "type": "java.lang.String",
       "description": "Description for jwt.expiration."
+    },
+    {
+      "name": "app.services.user-service.url",
+      "type": "java.lang.String",
+      "description": "Description for app.services.user-service.url."
+    },
+    {
+      "name": "app.services.project-service.url",
+      "type": "java.lang.String",
+      "description": "Description for app.services.project-service.url."
+    },
+    {
+      "name": "app.services.task-service.url",
+      "type": "java.lang.String",
+      "description": "Description for app.services.task-service.url."
+    },
+    {
+      "name": "app.services.notification-service.url",
+      "type": "java.lang.String",
+      "description": "Description for app.services.notification-service.url."
     }
   ] }

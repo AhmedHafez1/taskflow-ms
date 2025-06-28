@@ -5,17 +5,60 @@ spring:
   application:
     name: api-gateway
 
+  cloud:
+    gateway:
+      default-filters:
+        - name: LoggingFilter
+        - name: AddResponseHeader
+          args:
+            name: X-Response-Time
+            value: "#{T(System).currentTimeMillis()}"
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+# Service URLs
+app:
+  services:
+    user-service:
+      url: ${USER_SERVICE_URL:http://localhost:8081}
+    project-service:
+      url: ${PROJECT_SERVICE_URL:http://localhost:8082}
+    task-service:
+      url: ${TASK_SERVICE_URL:http://localhost:8083}
+    notification-service:
+      url: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+
 # JWT Configuration
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
   expiration: 24 # hours
+
+# Logging
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.taskflow.gateway: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
 # Management endpoints
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,gateway
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: always
