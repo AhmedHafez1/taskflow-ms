@@ -1,4 +1,4 @@
-package com.taskflow.api_gateway;
+package com.taskflow.api_gateway.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,9 +13,6 @@ import java.util.Date;
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String jwtSecret;
-
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -53,4 +50,7 @@ public class JwtUtil {
         }
     }
 
+    public Boolean validateToken(String token) {
+        return !isTokenExpired(token);
+    }
 }
