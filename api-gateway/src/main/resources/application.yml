@@ -32,13 +32,13 @@ spring:
 app:
   services:
     user-service:
-      url: ${USER_SERVICE_URL:http://localhost:8081}
+      url: http://user-service:8081
     project-service:
-      url: ${PROJECT_SERVICE_URL:http://localhost:8082}
+      url: http://project-service:8082
     task-service:
-      url: ${TASK_SERVICE_URL:http://localhost:8083}
+      url: http://task-service:8083
     notification-service:
-      url: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+      url: http://notification-service:8084
 
 # JWT Configuration
 jwt:

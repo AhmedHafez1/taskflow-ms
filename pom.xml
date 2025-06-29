@@ -9,7 +9,7 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>TaskFlow Microservices</name>
+    <name>taskflow-parent</name>
     <description>TaskFlow Project Management Microservices Application</description>
 
     <properties>
