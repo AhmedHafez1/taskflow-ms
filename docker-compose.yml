@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   postgres-users:
     image: postgres:15
     environment:
@@ -11,6 +12,45 @@ services:
       - "5432:5432"
     volumes:
       - postgres_users_data:/var/lib/postgresql/data
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: taskflow-user-service
+    environment:
+      # Database configuration
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-users:5432/taskflow_users
+      SPRING_DATASOURCE_USERNAME: taskflow
+      SPRING_DATASOURCE_PASSWORD: password
+
+      # JWT configuration
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      JWT_EXPIRATION: 24 # hours
+
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-users
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+    environment:
+      # JWT configuration
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+
+      # Service URLs for routing
+      USER_SERVICE_URL: http://user-service:8081
+      PROJECT_SERVICE_URL: http://project-service:8082
+      TASK_SERVICE_URL: http://task-service:8083
+      NOTIFICATION_SERVICE_URL: http://notification-service:8084
 
 volumes:
   postgres_users_data:

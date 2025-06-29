@@ -32,18 +32,17 @@ spring:
 app:
   services:
     user-service:
-      url: http://user-service:8081
+      url: ${User-Service-URL:http://localhost:8081}
     project-service:
-      url: http://project-service:8082
+      url: ${Project-Service-URL:http://localhost:8082}
     task-service:
-      url: http://task-service:8083
+      url: ${Task-Service-URL:http://localhost:8083}
     notification-service:
-      url: http://notification-service:8084
+      url: ${Notification-Service-URL:http://localhost:8084}
 
 # JWT Configuration
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 24 # hours
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
 
 # Logging
 logging:
