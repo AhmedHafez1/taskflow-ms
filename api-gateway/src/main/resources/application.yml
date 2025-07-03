@@ -48,16 +48,16 @@ jwt:
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
-    com.taskflow.gateway: DEBUG
+    com.taskflow.api_gateway: DEBUG
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 # Management endpoints
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: health,info,metrics,loggers,env
   endpoint:
     health:
       show-details: always
