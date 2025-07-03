@@ -5,29 +5,6 @@ spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      default-filters:
-        - name: LoggingFilter
-        - name: AddResponseHeader
-          args:
-            name: X-Response-Time
-            value: "#{T(System).currentTimeMillis()}"
-
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOriginPatterns: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
-            maxAge: 3600
-
 # Service URLs
 app:
   services:
