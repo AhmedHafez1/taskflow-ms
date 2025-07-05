@@ -4,14 +4,12 @@ import com.taskflow.common.exception.*;
 import com.taskflow.user_service.dto.AuthResponse;
 import com.taskflow.user_service.dto.LoginRequest;
 import com.taskflow.user_service.dto.RegisterRequest;
-import com.taskflow.user_service.dto.UserResponse;
 import com.taskflow.user_service.entity.User;
 import com.taskflow.user_service.mapper.UserMapper;
 import com.taskflow.user_service.repository.UserRepository;
 import com.taskflow.user_service.service.AuthService;
 import com.taskflow.user_service.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,24 +47,5 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtService.generateToken(user);
 
         return new AuthResponse(token, userMapper.toUserResponse(user));
-    }
-
-    @Override
-    public UserResponse getCurrentUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new UnAuthorizedException("User is not authenticated!");
-        }
-
-        User user = (User) authentication.getPrincipal();
-
-        if (user != null) {
-            return userMapper.toUserResponse(user);
-        }
-
-        return null;
-    }
-
-    @Override
-    public void logout(Authentication authentication) {
     }
 }

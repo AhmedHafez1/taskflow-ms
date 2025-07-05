@@ -2,6 +2,7 @@ package com.taskflow.api_gateway.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,8 @@ public class JwtUtil {
     private String jwtSecret;
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public Claims extractAllClaims(String token) {
@@ -30,10 +32,6 @@ public class JwtUtil {
         return extractAllClaims(token).getSubject();
     }
 
-    public String extractUserId(String token) {
-        return extractAllClaims(token).get("userId", String.class);
-    }
-
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
@@ -44,8 +42,10 @@ public class JwtUtil {
 
     public Boolean isTokenExpired(String token) {
         try {
-            return extractExpiration(token).before(new Date());
+            var expiration = extractExpiration(token);
+            return expiration.before(new Date());
         } catch (Exception e) {
+            System.out.println("Invalid JWT token: " + e.getMessage());
             return true;
         }
     }

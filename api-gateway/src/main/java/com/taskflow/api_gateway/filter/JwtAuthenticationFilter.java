@@ -41,13 +41,11 @@ public class JwtAuthenticationFilter implements GatewayFilter {
             }
 
             // Extract user information and add to headers for downstream services
-            String userId = jwtUtil.extractUserId(token);
             String username = jwtUtil.extractUsername(token);
             String role = jwtUtil.extractRole(token);
 
             // Add user context to request headers
             ServerHttpRequest modifiedRequest = request.mutate()
-                    .header("X-User-Id", userId)
                     .header("X-Username", username)
                     .header("X-User-Role", role)
                     .build();
