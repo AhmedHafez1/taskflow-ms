@@ -13,12 +13,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepo.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         if (!user.isActive())
-            throw new UsernameNotFoundException("User is not active: " + username);
+            throw new UsernameNotFoundException("User is not active: " + email);
 
         return user;
     }
