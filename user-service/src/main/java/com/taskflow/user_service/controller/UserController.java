@@ -3,6 +3,7 @@ package com.taskflow.user_service.controller;
 import com.taskflow.user_service.dto.UserResponse;
 import com.taskflow.user_service.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +22,12 @@ public class UserController {
     public ResponseEntity<UserResponse> getCurrentUser(@RequestHeader("X-Username") String username) {
         UserResponse userResponse = userService.getCurrentUser(username);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<UserResponse[]> getAllUsers() {
+        UserResponse[] users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

@@ -26,4 +26,13 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toUserResponse(user);
     }
+
+    @Override
+    public UserResponse[] getAllUsers() {
+        return userRepo
+                .findAll()
+                .stream()
+                .map(userMapper::toUserResponse)
+                .toArray(UserResponse[]::new);
+}
 }
