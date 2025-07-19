@@ -8,6 +8,8 @@ import com.taskflow.user_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
@@ -34,5 +36,10 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(userMapper::toUserResponse)
                 .toArray(UserResponse[]::new);
-}
+    }
+
+    @Override
+    public UserResponse getUserById(UUID id) {
+        return userRepo.findById(id).map(userMapper::toUserResponse).orElse(null);
+    }
 }

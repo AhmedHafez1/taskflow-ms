@@ -4,10 +4,9 @@ import com.taskflow.user_service.dto.UserResponse;
 import com.taskflow.user_service.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,5 +28,10 @@ public class UserController {
     public ResponseEntity<UserResponse[]> getAllUsers() {
         UserResponse[] users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 }
